@@ -1,0 +1,142 @@
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+}
+
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: pixelated;
+}
+
+.pixel-border {
+  box-shadow: 
+    0 4px 0 0 #b4a7d6, 
+    0 0 0 4px #b4a7d6;
+}
+
+.pixel-button {
+  image-rendering: pixelated;
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  padding: 10px 16px;
+  margin: 0px;
+  background-color: #fce4ec;
+  color: #b4a7d6;
+  box-shadow: 
+    inset -4px -4px 0px 0px #f8bbd0,
+    0 4px 0 0 #b4a7d6, 
+    0 0 0 4px #b4a7d6;
+  transition: all 0.1s;
+}
+
+.pixel-button:hover {
+  background-color: #f8bbd0;
+}
+
+.pixel-button:active {
+  transform: translateY(4px);
+  box-shadow: 
+    inset -4px -4px 0px 0px #f8bbd0,
+    0 0 0 4px #b4a7d6;
+}
+
+.pixel-button.primary {
+  background-color: #e1bee7;
+  color: #fff;
+}
+
+.pixel-button.primary:hover {
+  background-color: #ce93d8;
+}
+
+.pixel-button.secondary {
+  background-color: #bbdefb;
+  color: #fff;
+}
+
+.pixel-button.secondary:hover {
+  background-color: #90caf9;
+}
+
+.pixel-progress {
+  height: 30px;
+  background-color: #f3e5f5;
+  padding: 4px;
+  margin: 20px 0;
+  box-shadow: inset 0 0 0 4px #b4a7d6;
+}
+
+.pixel-progress-inner {
+  height: 100%;
+  background-color: #e1bee7;
+  transition: width 1s linear;
+}
+
+.pixel-container {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 0;
+  box-shadow: 
+    inset 6px 6px 0px 0px #f3e5f5,
+    inset -6px -6px 0px 0px #e1bee7,
+    0 0 0 4px #b4a7d6;
+  image-rendering: pixelated;
+}
+
+.pixel-display {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #f3e5f5;
+  color: #7e57c2;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 
+    inset 4px 4px 0px 0px #fff,
+    inset -4px -4px 0px 0px #e1bee7,
+    0 0 0 4px #b4a7d6;
+  text-align: center;
+  text-shadow: 2px 2px 0px #fff;
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.pixel-settings {
+  background-color: #f3e5f5;
+  color: #7e57c2;
+  padding: 16px;
+  margin-top: 16px;
+  box-shadow: 
+    inset 4px 4px 0px 0px #fff,
+    inset -4px -4px 0px 0px #e1bee7,
+    0 0 0 4px #b4a7d6;
+}
+
+.pixel-counter {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pixel-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #f3e5f5;
+  box-shadow: 0 0 0 2px #b4a7d6;
+}
+
+.pixel-dot.completed {
+  background-color: #e1bee7;
+}
