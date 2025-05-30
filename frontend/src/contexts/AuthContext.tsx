@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         password,
         password_confirmation: passwordConfirmation,
       });
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.data.token);
       setUser(res.data.user);
     } catch (err: unknown) {
       handleAxiosError(err);
