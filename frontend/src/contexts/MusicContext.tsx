@@ -45,7 +45,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken();
     if (!token) throw new Error("No token found");
 
-    const res = await fetch("http://localhost:8000/api/music", {
+    const res = await fetch("https://api2.davintanaya.me/api/v2/music", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken();
     if (!token) throw new Error("No token found");
 
-    const res = await fetch("http://localhost:8000/api/music", {
+    const res = await fetch("https://api2.davintanaya.me/api/v2/music", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken();
     if (!token) throw new Error("No token found");
 
-    const res = await fetch(`http://localhost:8000/api/music/${id}`, {
+    const res = await fetch(`https://api2.davintanaya.me/api/v2/music/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken();
     if (!token) throw new Error("No token found");
 
-    const res = await fetch(`http://localhost:8000/api/music/${id}`, {
+    const res = await fetch(`https://api2.davintanaya.me/api/v2/music/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

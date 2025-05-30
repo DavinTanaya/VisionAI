@@ -131,13 +131,13 @@ class AuthController extends Controller
             $encryptionKey = Key::loadFromAsciiSafeString(config('app.encryption_key'));
             $token = Crypto::encrypt($token, $encryptionKey);
 
-            $frontendUrl = 'http://localhost:5173';
+            $frontendUrl = 'https://davintanaya.me';
 
             return redirect()->away(
                 $frontendUrl . '/auth/google/success?token=' . $token
             );
         } catch (\Exception $e) {
-            $frontendUrl = 'http://localhost:5173';
+            $frontendUrl = 'https://davintanaya.me';
             return redirect()->away(
                 $frontendUrl . '/auth/google/error?message=' . urlencode('Authentication failed')
             );

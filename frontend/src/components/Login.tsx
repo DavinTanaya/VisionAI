@@ -82,7 +82,7 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:8000/api/auth/google';
+    window.location.href = 'https://api2.davintanaya.me/api/v2/auth/google';
   };
 
   return (

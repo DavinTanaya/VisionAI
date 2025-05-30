@@ -10,6 +10,7 @@ import CameraMonitor from "./CameraMonitor";
 import { useSession } from "../contexts/SessionContext";
 import { useMusic } from "../contexts/MusicContext";
 import YouTube, { YouTubePlayer } from "react-youtube";
+import { useLocation } from "react-router-dom";
 
 let lastSettingsRef: React.MutableRefObject<{
   focus: number;
@@ -29,6 +30,9 @@ const DEFAULT_TIMES = {
 };
 
 const PomodoroTimer: React.FC = () => {
+  const { state } = useLocation();
+  const routedSession = state?.session;
+
   const { musicList } = useMusic();
   lastSettingsRef = useRef({
     focus: 0,
@@ -36,13 +40,13 @@ const PomodoroTimer: React.FC = () => {
     repeatCount: 0,
   });
   const {
-    currentSession,
+    currentSession: contextSession,
     addSession,
     updateSession,
     incrementRuntime,
     incrementDone,
   } = useSession();
-
+  const currentSession = routedSession ?? contextSession;
   const [timerMode, setTimerMode] = useState<TimerMode>(TimerMode.POMODORO);
   const [timeLeft, setTimeLeft] = useState(DEFAULT_TIMES[timerMode]);
   const [isRunning, setIsRunning] = useState(false);

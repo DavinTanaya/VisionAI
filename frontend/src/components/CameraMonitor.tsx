@@ -2,18 +2,25 @@ import { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useSession } from "../contexts/SessionContext";
 import { Eye, AlertTriangle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
-const WS_URL = "ws://api.davintanaya.me/vision/ws";
+const WS_URL = "wss://api.davintanaya.me/vision/ws";
 
 interface CameraMonitorProps {
   isActive: boolean;
 }
 
 export default function CameraMonitor({ isActive }: CameraMonitorProps) {
+  const { state } = useLocation();
+  const routedSession = state?.session;
   const webcamRef = useRef<Webcam>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const frameInterval = useRef<NodeJS.Timeout | null>(null);
-  const { currentSession, incrementYawning, incrementClosed } = useSession();
+  const {
+    currentSession: contextSession,
+    incrementYawning,
+    incrementClosed,
+  } = useSession();
   const [stats, setStats] = useState({
     eyesClosed: false,
     yawning: false,
@@ -21,9 +28,11 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
     yawnCount: 0,
   });
 
+  const currentSession = routedSession ?? contextSession;
   const lastClosedTs = useRef<number>(0);
   const lastYawnTs = useRef<number>(0);
-  const COOLDOWN_MS = 10_000;
+  const COOLDOWN_MS = 1_000;
+  const CLOSED_EYES_COOLDOWN_MS = 1_000; // 1 second delay for closed eyes
 
   const prevStateRef = useRef({
     eyesClosed: false,
@@ -53,12 +62,9 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
 
         if (currentSession.id) {
           // Debounced closed-eyes increment
-          if (
-            isClosed &&
-            !prevStateRef.current.eyesClosed &&
-            now - lastClosedTs.current > COOLDOWN_MS
-          ) {
+          if (isClosed && now - lastClosedTs.current > CLOSED_EYES_COOLDOWN_MS) {
             lastClosedTs.current = now;
+            currentSession.closed = (currentSession.closed || 0) + 1;
             incrementClosed(currentSession.id).catch((e) =>
               console.error("incrementClosed error", e)
             );
@@ -71,6 +77,7 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
             now - lastYawnTs.current > COOLDOWN_MS
           ) {
             lastYawnTs.current = now;
+            currentSession.yawning = (currentSession.yawning || 0) + 1;
             incrementYawning(currentSession.id).catch((e) =>
               console.error("incrementYawning error", e)
             );

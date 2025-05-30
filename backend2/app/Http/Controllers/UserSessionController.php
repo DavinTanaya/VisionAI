@@ -59,9 +59,9 @@ class UserSessionController extends Controller
             'repeat' => $request->repeat,
             'userId' => $user->id
         ]);
-
+        $data = $session->only(['id','name', 'focus', 'break', 'repeat', 'yawning', 'closed', 'done', 'runtime']);
         return new DataResponse(
-            [], ResponseCode::SUCCESS_CODE, '', 'Session Successfully Added'
+            $data, ResponseCode::SUCCESS_CODE, '', 'Session Successfully Added'
         );
     }
 

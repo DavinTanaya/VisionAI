@@ -23,7 +23,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const API = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'https://api2.davintanaya.me/api/v2',
 });
 
 API.interceptors.request.use(config => {
