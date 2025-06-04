@@ -62,7 +62,7 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
 
         if (currentSession.id) {
           if (isClosed || isYawning) {
-            const audio = new Audio("alarm.mp3");
+            const audio = new Audio("/alarm.mp3");
             audio.play().catch((e) => console.error("Audio play error", e));
           }
           if (
