@@ -62,8 +62,12 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
 
         if (currentSession.id) {
           if (isClosed || isYawning) {
-            const audio = new Audio("/alarm.mp3");
-            audio.play().catch((e) => console.error("Audio play error", e));
+            const audio = new Audio(
+              "https://www.orangefreesounds.com/wp-content/uploads/2016/05/Beep-tone.mp3"
+            );
+            audio.play().catch((err) => {
+              console.error("Audio play error:", err);
+            });
           }
           if (
             isClosed &&
