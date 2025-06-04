@@ -32,7 +32,7 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
   const lastClosedTs = useRef<number>(0);
   const lastYawnTs = useRef<number>(0);
   const COOLDOWN_MS = 1_000;
-  const CLOSED_EYES_COOLDOWN_MS = 1_000; // 1 second delay for closed eyes
+  const CLOSED_EYES_COOLDOWN_MS = 1_000;
 
   const prevStateRef = useRef({
     eyesClosed: false,
@@ -61,8 +61,14 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
         const isYawning = msg.status === "Yawning";
 
         if (currentSession.id) {
-          // Debounced closed-eyes increment
-          if (isClosed && now - lastClosedTs.current > CLOSED_EYES_COOLDOWN_MS) {
+          if (isClosed || isYawning) {
+            const audio = new Audio("alarm.mp3");
+            audio.play().catch((e) => console.error("Audio play error", e));
+          }
+          if (
+            isClosed &&
+            now - lastClosedTs.current > CLOSED_EYES_COOLDOWN_MS
+          ) {
             lastClosedTs.current = now;
             currentSession.closed = (currentSession.closed || 0) + 1;
             incrementClosed(currentSession.id).catch((e) =>
@@ -70,7 +76,6 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
             );
           }
 
-          // Debounced yawning increment
           if (
             isYawning &&
             !prevStateRef.current.yawning &&
@@ -84,13 +89,10 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
           }
         }
 
-        // Update previous state reference
         prevStateRef.current = {
           eyesClosed: isClosed,
           yawning: isYawning,
         };
-
-        // Update local UI state
         setStats((prev) => ({
           eyesClosed: isClosed,
           yawning: isYawning,
@@ -115,16 +117,13 @@ export default function CameraMonitor({ isActive }: CameraMonitorProps) {
     }
   }, [isActive, currentSession]);
 
-  // Setup frame sending interval
   useEffect(() => {
     if (isActive && currentSession?.id) {
-      // Clear any existing interval
       if (frameInterval.current) {
         clearInterval(frameInterval.current);
         frameInterval.current = null;
       }
 
-      // Send frames at a lower rate (250ms)
       const interval = setInterval(() => {
         if (webcamRef.current && wsRef.current?.readyState === WebSocket.OPEN) {
           const jpegB64 = webcamRef.current.getScreenshot();
