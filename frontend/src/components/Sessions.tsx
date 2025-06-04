@@ -6,7 +6,7 @@ import { Plus, Timer, History } from "lucide-react";
 
 const Sessions: React.FC = () => {
   const navigate = useNavigate();
-  const { sessions, addSession } = useSession();
+  const { fetchSessions, sessions, addSession } = useSession();
   const flatSessions = sessions.flat();
   const [showNewSession, setShowNewSession] = useState(false);
   const [newSession, setNewSession] = useState({
@@ -15,6 +15,10 @@ const Sessions: React.FC = () => {
     break: 5,
     repeat: 4,
   });
+
+  useEffect(() => {
+    fetchSessions();
+  }, [fetchSessions]);
 
   const handleCreateSession = async () => {
     try {
