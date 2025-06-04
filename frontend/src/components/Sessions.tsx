@@ -1,5 +1,5 @@
 // Sessions.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../contexts/SessionContext";
 import { Plus, Timer, History } from "lucide-react";
